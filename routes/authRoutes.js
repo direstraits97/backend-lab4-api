@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const database = require("better-sqlite3");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 require("dotenv").config();
 const db = new database(process.env.DATABASE);
@@ -57,9 +58,17 @@ router.post("/login", async (req, res) => {
 
     if (!passwordMatch) {
       return res.status(401).json({ error: "Incorrect username/password." });
+    } else {
+      const payload = { username: username };
+      const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+        expiresIn: "1h",
+      });
+      const response = {
+        message: "Succesful login!",
+        token: token,
+      };
+      res.status(200).json({ response });
     }
-
-    res.status(200).json({ message: "Succesful login!" });
   } catch (error) {
     res.status(500).json({ error: "Server error." });
   }
