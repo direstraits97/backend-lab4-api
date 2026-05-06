@@ -47,7 +47,7 @@ router.post("/login", async (req, res) => {
         .json({ error: "Invalid input, please enter username and password." });
     }
 
-    const stmt = db.prepare(`SELECT * FROM users WHERE username=?`);
+    const stmt = db.prepare(`SELECT * FROM users WHERE username=?;`);
     const row = stmt.get(username);
 
     if (!row) {
@@ -59,10 +59,11 @@ router.post("/login", async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ error: "Incorrect username/password." });
     } else {
-      const payload = { username: username };
+      const payload = { username: username, created: row.created };
       const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
         expiresIn: "1h",
       });
+
       const response = {
         message: "Succesful login!",
         token: token,
