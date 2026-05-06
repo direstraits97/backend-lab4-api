@@ -1,3 +1,8 @@
+/**
+ * Install-script för databas som lagrar användare.
+ * Av: Josefine Backlund
+ */
+
 require("dotenv").config();
 const database = require("better-sqlite3");
 
