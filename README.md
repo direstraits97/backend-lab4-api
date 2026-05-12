@@ -17,3 +17,4 @@ Nedan beskrivs hur API:et kan anropas:
 | POST | /api/register | Skapar en ny användare som lagras i databasen med hashat lösenord. |
 
 ## Länk till video-demo
+https://youtu.be/5-3iTJHzciw
